@@ -65,7 +65,7 @@ def geocode_bulk(data, column="address", verbose=False):
             row["error"] = e
             errors.append(row)
 
-    if len(errors) > 0 and verbose:
+    if errors and verbose:
         print(f"{len(errors)}/{len(data)} rows failed")
 
     return result, errors

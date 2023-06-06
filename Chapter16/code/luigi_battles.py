@@ -26,11 +26,10 @@ class ParseFront(luigi.Task):
             fronts = json.load(f)
 
         front = fronts[self.front]
-        result = {}
-
-        for cp_name, campaign in front.items():
-            result[cp_name] = _parse_in_depth(campaign, cp_name)
-
+        result = {
+            cp_name: _parse_in_depth(campaign, cp_name)
+            for cp_name, campaign in front.items()
+        }
         self.output().makedirs()
         with open(self.output().path, "w") as f:
             json.dump(result, f)

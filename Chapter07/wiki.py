@@ -16,11 +16,7 @@ def _abs_link(link, base='https://en.wikipedia.org'):
         
 
 def _table_to_dict(table):
-    result = {}
-    for row in table.find_all('tr'):
-        result[row.th.text] = row.td.get_text().strip()
-        
-    return result
+    return {row.th.text: row.td.get_text().strip() for row in table.find_all('tr')}
 
 def _get_main_info(table):
     """finds "main" data table on the page
@@ -50,9 +46,7 @@ def _parse_row(row, names=("allies", "axis", "third party")):
 def _find_row_by_header(table, string):
     """find a header row in the table,
     and return NEXT element if finds"""
-    header = table.tbody.find("tr", text=string)
-
-    if header:
+    if header := table.tbody.find("tr", text=string):
         return header.next_sibling
 
 
@@ -72,8 +66,7 @@ def _additional(table):
     result = {}
     for keyword in keywords:
         try:
-            data = _find_row_by_header(table, keyword)
-            if data:
+            if data := _find_row_by_header(table, keyword):
                 result[keyword] = _parse_row(data)
         except Exception as e:
             raise Exception(keyword, e)

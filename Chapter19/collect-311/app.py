@@ -11,7 +11,7 @@ time_col = 'Created Date'
 
 def _upload_json(obj, filename, bucket, key):
     S3 = boto3.client('s3', region_name='us-east-1')
-    key += ('/' + filename)
+    key += f'/{filename}'
 
     S3.Object(Bucket=bucket, Key=key).put(Body=json.dumps(obj))
 

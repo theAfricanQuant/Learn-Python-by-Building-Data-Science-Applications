@@ -43,9 +43,10 @@ COLUMNS_RAW = [([el, String(64)], {}) for el in  [
 ]
 
 # COLUMNS_RAW.append((["unique_key", String(64)], {"primary_key": True}))
-for col in "resolution_action_updated_date", "resolution_description":
-    COLUMNS_RAW.append(([col, Text()], {}))
-
+COLUMNS_RAW.extend(
+    ([col, Text()], {})
+    for col in ("resolution_action_updated_date", "resolution_description")
+)
 TOP = [(['date',   String(64)], {}),
        (['boro',   String(64)], {}),
        (['metric', String(64)], {}),

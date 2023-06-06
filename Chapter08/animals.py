@@ -26,7 +26,7 @@ class Island:
     def __init__(self, initial_pop=10, max_pop=2500):
         self.year = 0
         self.max_pop = max_pop
-        self.stats = dict()
+        self.stats = {}
 
         self.animals = [
             Herbivore(survival_skill=random.randint(0, 100))
@@ -34,7 +34,7 @@ class Island:
         ]
 
     def _simulate(self):
-        new_animals = list()
+        new_animals = []
         pop = len(self.animals)
 
         random.shuffle(self.animals)

@@ -44,14 +44,13 @@ class Collect311_SQLITE(sqla.CopyToTable):
 
     def rows(self):
         data = _get_data(self.resource, self.time_col, self.date, offset=0)
-        
+
         if len(data) > 0:
             df =  pd.DataFrame(data).astype(str) #.drop('location', axis=1)
             df = df.loc[:, [el[0][0] for el in self.columns]] # add column if missing
-            
 
-            for row in df.values.tolist():
-                yield row
+
+            yield from df.values.tolist()
         
 
 
@@ -95,12 +94,11 @@ class Top10_SQLITE(sqla.CopyToTable):
 
     def rows(self):
         con = sqlalchemy.create_engine(self.connection_string)
-        
-        
+
+
         Q = f"SELECT borough, complaint_type FROM raw WHERE closed_date BETWEEN '{self.date:%Y-%m-%d}' AND '{self.date:%Y-%m-%d} 23:59:59';"
         data = pd.read_sql_query(Q, con)
-        for row in self._analize(data, date=date, N=self.N):
-            yield row
+        yield from self._analize(data, date=date, N=self.N)
 
 
 
